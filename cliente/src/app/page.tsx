@@ -1,6 +1,7 @@
 import Link from "next/link";
+import type { ReactElement } from "react";
 
-export default function HomePage() {
+export default function HomePage(): ReactElement {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-slate-50">
       <div className="text-center">
