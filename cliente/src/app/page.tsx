@@ -41,8 +41,7 @@ export default function HomePage(): ReactElement {
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-orange-300">
                 Bebras Delivery
               </p>
-              <h1 className="text-xl font-bold">CI/CD Automático</h1>
-            </div>
+<h1 className="text-xl font-bold">🚀 CI/CD Funcionando en Desarrollo</h1>            </div>
           </div>
 
           <span className="rounded-full border border-emerald-400/40 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300">
