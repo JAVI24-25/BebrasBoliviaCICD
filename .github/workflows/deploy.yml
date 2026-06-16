@@ -18,8 +18,17 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Instalar dependencias
-        run: npm install
+      - name: Instalar dependencias raíz
+        run: npm ci
+
+      - name: Instalar dependencias del cliente
+        run: npm --prefix cliente ci
+
+      - name: Instalar dependencias del servicio
+        run: npm --prefix servicios/servicio-usuario ci
+
+      - name: Generar Prisma Client
+        run: npm --prefix servicios/servicio-usuario run prisma:generate
 
       - name: Ejecutar pruebas unitarias
         run: npm test
