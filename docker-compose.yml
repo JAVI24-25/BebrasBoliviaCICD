@@ -1,47 +1,37 @@
-version: '3.8'
-
 services:
   # BASE DE DATOS
-  postgres_db:
+  base_datos_psql:
     image: postgres:15-alpine
     container_name: bebras_db
     restart: always
     environment:
-      # Estos 3 los define: MODELO BD Y REPOS
-      POSTGRES_USER: dev_user           
-      POSTGRES_PASSWORD: dev_password   
-      POSTGRES_DB: bebras_bolivia       
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  # SECCIÓN DE APLICACIÓN
-  auth-service:
+  # FRONTEND (Next.js)
+  web-app:
     build:
       context: .
-      # Define la ruta: MODELO BD Y REPOS
-      dockerfile: servicios/servicio-autenticacion/Dockerfile 
-    container_name: auth_svc
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    environment:
-      - NODE_ENV=development            # ESTÁNDARES DE CODIFICACIÓN
-      
-      # 1. Los datos (user/pass) vienen de: MODELO BD Y REPOS
-      # 2. La seguridad de la conexión viene de: DDOS, TLS, INYECCION
-      - DB_URL=postgres://dev_user:dev_password@postgres_db:5432/bebras_bolivia
-      
-      # CERTIFICADOS Y FIRMAS DIGITALES
-
+      dockerfile: Dockerfile
+    container_name: nodo_app_servidor
+    restart: always
     ports:
-      - "3001:3001"
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_HOST=base_datos_psql
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
     depends_on:
-      - postgres_db
+      - base_datos_psql
 
-# RECURSOS ADICIONALES
 volumes:
   postgres_data:
-
-# REDIS
+    driver: local
