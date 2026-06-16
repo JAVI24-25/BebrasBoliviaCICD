@@ -15,9 +15,7 @@ services:
 
   # FRONTEND (Next.js)
   web-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: nodo_app_servidor
     restart: always
     ports:
