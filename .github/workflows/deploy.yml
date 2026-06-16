@@ -1,0 +1,36 @@
+name: Pipeline de Integración y Despliegue Continuo (CI/CD)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  fase-integracion-continua:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Ejecutar pruebas unitarias
+        run: npm test
+
+  fase-despliegue-continuo:
+    needs: fase-integracion-continua
+    runs-on: self-hosted
+    steps:
+      - name: Descargar código actualizado
+        uses: actions/checkout@v4
+
+      - name: Invocar script de despliegue
+        run: |
+          ~/deploy.sh "${{ secrets.DB_USER }}" "${{ secrets.DB_PASSWORD }}" "${{ secrets.DB_NAME }}"
