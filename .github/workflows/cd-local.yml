@@ -38,6 +38,11 @@ jobs:
       - name: Construir proyecto
         run: npm run build
 
-      - name: Ejecutar script de despliegue local
+      
+        - name: Ejecutar script de despliegue local
         shell: powershell
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_NAME: ${{ secrets.DB_NAME }}
         run: .\scripts\deploy-local.ps1
