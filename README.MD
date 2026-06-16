@@ -1,4 +1,4 @@
-# BebrasBolivia-Gen
+# BebrasBolivia-Delivery-CICD
 
 Monorepo: Frontend Next.js + Backend Express + Testing Jest
 
